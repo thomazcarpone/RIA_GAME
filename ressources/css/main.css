@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:200,400,400i,700|Roboto+Slab:700');
+
+* {
+    box-sizing: border-box;
+}
+
+main aside {
+    grid-area: header;
+    position: static;
+    margin: 30px;
+}
+
+main aside div {
+    padding-bottom: 5px;
+    box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.1), 0 0px 12px 0 rgba(0, 0, 0, 0.8);
+}
+
+main aside div h3 {
+    text-align: center;
+    background-color: #E26633;
+    color: white;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+main aside div ul {
+    list-style: none;
+    padding-left: 0px;
+    padding-right: 20px;
+    border-left: 0px;
+    margin-left: 0px;
+    text-align: left;
+}
+
+main {
+    display: grid;
+    grid-template-areas:
+        'main main main main header header'
+        'main main main main right right';
+    grid-gap: 10px;
+    padding: 10px;
+}
+
+main header p{
+    margin-top: 1px;
+    text-align: right;
+    color: grey;
+}
+
+main header h2{
+    margin-top: 60px;
+    margin-left: 40px;
+    margin-bottom: 0px;
+    border-bottom: 1px solid #C8C8C8;
+}
+
+main p {
+    margin-left: 40px;
+}
+
+/* unvisited link */
+main a:link {
+  color: #D14519;
+}
+
+/* visited link */
+main a:visited {
+  color: #D14519;
+}
+
+body::after {
+    content: '';
+    display: block;
+    height: 50px; /* Set same as footer's height */
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 16px;
+    background-color: #454545;
+    text-align: center;
+}
+
+footer img {
+    object-fit: cover;
+    height: 50px;
+}
+
