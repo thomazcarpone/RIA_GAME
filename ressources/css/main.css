@@ -23,6 +23,9 @@ main aside div h3 {
     padding-right: 30px;
     padding-top: 10px;
     padding-bottom: 10px;
+    font-family: roboto slab, serif;
+    font-style: bold;
+    font-weight: 200;
 }
 
 main aside div ul {
@@ -34,19 +37,13 @@ main aside div ul {
     text-align: left;
 }
 
-main {
-    display: grid;
-    grid-template-areas:
-        'main main main main header header'
-        'main main main main right right';
-    grid-gap: 10px;
-    padding: 10px;
-}
+
 
 main header p{
     margin-top: 1px;
     text-align: right;
     color: grey;
+    font-style: italic
 }
 
 main header h2{
@@ -54,10 +51,53 @@ main header h2{
     margin-left: 40px;
     margin-bottom: 0px;
     border-bottom: 1px solid #C8C8C8;
+    font-family: roboto slab, serif;
+    font-style: bold;
+    font-weight: 200;
 }
 
 main p {
     margin-left: 40px;
+    font-family: adobe-bengali, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+}
+
+main ol{
+    padding-left: 20px;
+    margin-left: 80px;
+}
+
+main ol li{
+    padding-left: 20px;
+    font-family: adobe-bengali, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+}
+
+main article img {
+    max-width: 100%;
+	height: auto;
+}
+
+main article h2{
+    margin-left: 40px;
+    font-family: roboto slab, serif;
+    font-style: bold;
+    font-weight: 200;
+}
+
+main article h4{
+    margin-left: 40px;
+    font-family: roboto slab, serif;
+    font-style: bold;
+    font-weight: 200;
+}
+
+main article ul{
+    font-family: adobe-bengali, sans-serif;
+    font-style: normal;
+    font-weight: 400;
 }
 
 /* unvisited link */
@@ -73,7 +113,7 @@ main a:visited {
 body::after {
     content: '';
     display: block;
-    height: 50px; /* Set same as footer's height */
+    height: 100px; /* Set same as footer's height */
 }
 
 footer {
@@ -90,3 +130,25 @@ footer img {
     height: 50px;
 }
 
+
+
+@media screen and (min-width: 781px) {
+    main {
+    display: grid;
+    grid-template-areas:
+        'main main main main header header'
+        'main main main main right right';
+    grid-gap: 10px;
+    padding: 10px;
+    }
+}
+
+@media screen and (max-width: 780px) {
+    main article p {
+        padding-right: 30px;
+    }
+    footer img {
+    object-fit: cover;
+    height: 40px;
+}
+}
