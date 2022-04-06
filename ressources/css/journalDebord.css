@@ -1,0 +1,27 @@
+main section table{
+    padding-left: 40px;
+    border-spacing: 40px 0;
+}
+
+#Tabletitle{
+    font-weight: 700;
+}
+
+@media screen and (max-width: 780px) {
+    main section table{
+        padding-left: 40px;
+        border-spacing: 10px 0;
+        font-size: 2vmin;
+    }
+
+    main section table tr{
+        font-family: roboto slab, ;
+    font-style: normal;
+    }
+    
+    #Tabletitle{
+        font-family: roboto slab, serif;
+        font-style: normal;
+        font-weight: 700;
+    }
+}
