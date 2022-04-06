@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="ressources/css/header.css">
     <link rel="stylesheet" href="ressources/css/main.css">
-
+    <link rel="stylesheet" href="ressources/css/journalDebord.css">
 </head>
 <body>
 
@@ -42,14 +42,57 @@
     <section id="articles">
         <article>
             <header>
-                <h2>Description de votre projet</h2>
+                <h2>Description du Projet</h2>
                 <p>Par Jean Dupont le 5/02/2019 à 09:00</p>
             </header>
-            <p>Lorem ipsum dolor sit amet... <a href="http://www.hevs.ch/">http://www.hevs.ch/</a>,
-                 Ut non eros scelerisque, varius diam a, pulvinar arcu. Phasellus fermentum non arcu ornare ornare. Sed libero mi, rutrum et felis commodo, molestie tempor leo. Duis sit amet erat ut elit faucibus tincidunt sit amet non leo. Quisque dapibus ultricies cursus.</p>
-            <p> Aenean elit nisi, maximus sit amet vulputate non, molestie non odio. Quisque in dolor vel libero <strong>lobortis commodo</strong> ultricies sed nisl. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut pretium ipsum in ipsum venenatis, id elementum quam ultrices. Nam nec enim sagittis, ultrices massa eu, fermentum sem.</p>
-            <p><strong>Nam sed justo tortor:</strong>Aliquam eros ex, porttitor vel aliquam in, imperdiet id felis. Aliquam sed est quis nibh vestibulum porta. Nam ipsum quam, dapibus quis felis quis, pharetra auctor sapien</p>
-                <p>Le code source de l'application est disponible sur le <a href="https://github.com/">github du projet</a>.</p>
+                <p>Le jeu Seven Sins – overcome temptations est un jeu 2D en javascript créé par des étudiants de deuxième année de la HES-SO en informatique de gestion, dans le cadre du cours génie logiciel, partie Rich Internet Application.</p>
+                <p> Le joueur incarne un personnage se retrouvant confronté aux vices considérés comme l'origine de la plupart des maux humains : les sept péchés capitaux.</p>
+                <p>Il devra les combattre pour retrouver la maîtrise de sa vie et, en quelque sorte, sa liberté.
+                Chacun de ces péchés est matérialisé par un boss à vaincre. Chaque boss défait permettra au personnage de débloquer un pouvoir particulier, ce qui lui permettra d'affronter le prochain boss un peu mieux "armé", la difficulté augmentant de combat en combat. </p>
+                <p>Cette évolution de difficulté peut être liée à des enchaînements d'attaques plus rapides, à une augmentation des dégâts reçus ou encore à des contraintes de déplacement, de visibilité ou tout autres éléments permettant de rendre l'expérience du joueur aussi ludique que challenging</p>
+                <p>Le jeu, ainsi que le site l'hébergeant, ont été créés par quatre étudiants en informatique de gestion de la HES-SO de Sierre, dans le cadre du cours de deuxième année : Génie logiciel – Rich Internet Application.</p>
+                <p>Le code source de l'application est disponible sur le <a href="https://github.com/thomazcarpone/RIA_GAME">github du projet</a>.</p>
+
+                <br>
+                <h2>Les attaques des bosses</h2>
+                <p>Les différentes attaques et patterns d'attaques des bosses seront à peaufiner et fixer définitivement lors de l'acquisition de nos compétences en javascript. Il est, à l'heure actuelle, difficile d'être précis étant donné que les possibilités et les difficultés du codage dans ce langage sont encore floues.</p>
+                <p>De manière générale, chaque bosse aurait deux phases :</p>
+                <ol>
+                    <li>Une phase de "prise en main". Elle présenterait, pour le joueur, quelques challenges mais lui servirait surtout à appréhender les mécaniques du boss.</li>
+                    <br>
+                    <li>Une seconde phase, beaucoup plus exigeante, pousserait les réflexes et les compétences du joueur. Elle serait basée sur la première phase, avec des enchaînements peut-être plus rapides ou moins prévisibles.</li>
+                </ol>
+                <p>Aucune indication ne serait donnée au joueur. L'un des objectifs du jeu est de pousser le joueur à expérimenter, tester et découvrir ses propres stratégies.</p>
+                <p>Voici quelques idées d'attaques spéciales :</p>
+                <h4>Le boss "Gourmandise" :</h4>
+                <ul>
+                    <li>"invoquerait" des rouleaux à pâtisserie qui seraient projetés en avant, sur 2 ou 3 bandes. Ces bandes de trajectoires s'illumineraient un court instant, laissant un petit laps de temps au joueur pour se placer correctement. S'il reste sur la trajectoire de gros dégâts lui seraient alors infligés (perte importante de points de vie). Les 2 ou 3 bandes prendraient tout l'espace de la pièce et seraient alternées : une zone "safe" à côté d'une zone dangereuse.</li>
+                    <br>
+                    <li>projetterait des muffins. Si le joueur les consomme (collision avec l'objet), il pourrait récupérer des points de vie mais serait ralenti pendant un certain temps (vitesse de déplacement et éventuellement vitesse d'attaque). S'il en consomme trop durant un laps de temps (valeurs à définir selon la difficulté de la partie), le joueur ferait alors une indigestion et perdrait des points de vie.</li>
+                    <br>
+                    <li>imposerait un "moment de cuisine". Pendant ce moment, le boss cesserait d'attaquer et serait invulnérable aux attaques basiques du joueur. Il ferait apparaître des ingrédients culinaires (sucre, sel, farine, beurre,…) et ordonnerait au joueur de lui amener un ingrédient précis :
+                        <ul>
+                            <br>
+                            <li>si le joueur lui amène le bon ingrédient, le boss récupère de la vie</li>
+                            <br>
+                            <li>si le joueur lui amène un ingrédient "contraire" (sel au lieu de sucre), le boss perd de la vie mais s'énerverait au fur et à mesure (un compteur invisible pour le joueur, comptabiliserait cet énervement). Arrivé à un certain seuil et une fois ce "moment cuisine" terminé, ses attaques seraient alors plus rapides et feraient davantage de dégâts</li>
+                            <br>
+                            <li>si le joueur n'amène rien ou amène un ingrédient au hasard (ni le bon, ni son contraire), il perdrait lui-même de la vie.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p>Il y aurait plusieurs séries d'ordres durant un même "moment cuisine" ce qui permettrait au joueur de découvrir et tester différentes combinaisons mais aussi, peut-être, de s'embourber dans une série de décisions qui lui compliqueront la vie.</p>
+                <p>Une fois ce boss vaincu, le joueur gagnerait une compétence (ou un objet) lui permettant de récupérer des points de vie. Mais à consommer avec modération : A définir si le malus de vitesse de déplacement s'appliquerait à chaque consommation (comme pour les muffins) ou si une consommation trop importante infligerait l'indigestion (ralentissement + perte de points de vie et/ou incapacité à attaquer durant un temps)</p>
+                <br>
+                <h4>Le boss "Gourmandise" :</h4>
+                <ul>
+                    <li>Pourrait avoir une              particularité, absolument cachée et inconnue des joueurs :
+                    Dès le début du combat et sur une durée à déterminer, si le joueur évite toutes les attaques du boss et n'attaque pas lui-même, le boss – par nature paresseux – cesserait le combat et le joueur pourrait alors le vaincre par ce "raccourci".</li>
+                    <br>
+                    <li>Lancerait une onde de sommeil suivie de plusieurs attaques (projectiles lancés dans des directions selon un pattern précis à définir). Le joueur n'aurait pas la possibilité d'éviter l'onde de sommeil et se verrait ralenti dès qu'il serait touché. Il devrait alors éviter les projectiles sous cette contrainte. Dans le but d'offrir au joueur un sentiment de progression, le pattern d'attaques devrait être punitif mais suffisamment anticipable pour que le placement du joueur ait un réel impact sur ses chances de survie.</li>
+                    <br>
+                    <li>"Sommeil réparateur" : Le boss sauterait au centre de la pièce et commencerait à régénérer ses points de vie. Dans le même temps, une très grande zone s'afficherait au sol (couleur). Elle serait mortelle pour le joueur. Seule une petite zone serait "safe". Elle se déplacerait et obligerait le joueur à la suivre pour rester en vie. Si le joueur est capable de se déplacer et d'attaquer le boss en même temps, il pourrait compenser un peu la récupération de vie.</li>
+                </ul>
         </article>
     </section>
     <aside>
@@ -57,16 +100,16 @@
             <h3>Fiche signalétique</h3>
             <ul>
                 <li>
-                    <p><strong>Choffat Théo</strong>: 1</p>
+                    <p><strong>Choffat Théo</strong>: CSS et mise en place du site</p>
                 </li>
                 <li>
-                    <p><strong>Cheseaux Thomas</strong>: 2</p>
+                    <p><strong>Cheseaux Thomas</strong>: CSS et journal de bord</p>
                 </li>
                 <li>
-                    <p><strong>Dély Nathan</strong>: 3</p>
+                    <p><strong>Dély Nathan</strong>: mockup et présentation technique du jeu</p>
                 </li>
                 <li>
-                    <p><strong>Mottet Gaétan</strong>: Soleil</p>
+                    <p><strong>Mottet Gaétan</strong>: descriptions et schémas (sitemap et séquences de jeu)</p>
                 </li>
             </ul>
         </div>

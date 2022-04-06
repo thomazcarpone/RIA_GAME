@@ -17,7 +17,6 @@ body {
     background-color: white;
     box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.7), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     min-height: 100%;
-
 }
 
 header h1{
@@ -25,12 +24,15 @@ header h1{
     color: white;
     margin-top: 0px;
     margin-bottom: 0px;
-    font-size: 35px;
+    font-size: 30px;
     font-weight: bolder;
     padding-top: 85px;
     padding-bottom: 30px;
     text-align: center;
     text-align-last: center;
+    font-family: roboto slab, serif;
+    font-style: bold;
+    font-weight: 200;
 }
 
 header ul {
@@ -39,6 +41,9 @@ header ul {
     padding: 0;
     overflow: hidden;
     background-color: #454545;
+    font-family: roboto slab, serif;
+    font-style: bold;
+    font-weight: 200;
 }
 
 header li {
@@ -75,4 +80,46 @@ header .active a{
     text-decoration: none;
 }
 
+@media screen and (min-width: 781px) {
+    header nav ul img {
+        display: none;
+    }
 
+    header ul {
+        padding-left: 15px;
+    }
+}
+
+@media screen and (max-width: 780px) {
+    header h1 {
+        font-size: 20px;
+    }
+    header ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #454545;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    header li a {
+        padding: 10px 10px;
+    }
+    header .active a {
+        padding-left: 500px;
+        padding-right: 500px;
+    }
+
+    main {
+        flex-direction: column;
+    }
+
+    img {
+        width: 100%;
+    }
+    #logo {
+        width: 60%;
+    }
+}
