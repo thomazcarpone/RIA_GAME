@@ -132,6 +132,8 @@ footer img {
 
 
 
+
+
 @media screen and (min-width: 781px) {
     main {
     display: grid;
@@ -147,8 +149,7 @@ footer img {
     main article p {
         padding-right: 30px;
     }
-    footer img {
-    object-fit: cover;
-    height: 40px;
-}
+    #logo {
+       height: 100%;
+    }
 }
