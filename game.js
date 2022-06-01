@@ -377,7 +377,7 @@ class Colere extends Boss{
 		return "projectiles";
 	}
 }
-var damageSound = new Audio("ressources/game/soundEffect/Damage.m4a");
+//var damageSound = new Audio("ressources/game/soundEffect/Damage.m4a");
 var eatSound = new Audio("ressources/game/soundEffect/Eat.m4a");
 
 class Muffin{
