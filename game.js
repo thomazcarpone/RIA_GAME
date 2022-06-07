@@ -278,7 +278,7 @@ class Gourmandise extends Boss{
 		this.bossImage.src = "ressources/game/gourmandise.png";
 		this.pins = [];
 		this.muffins = [];
-		this.indgredients = [];
+		this.ingredients = [];
 	}
 	spell(){
 		if(this.currentSpell==0){
@@ -421,7 +421,7 @@ var keysDown = {};
 
 addEventListener("keydown", function (e) {
 	keysDown[e.keyCode] = true;
-    console.log(keysDown);
+    //console.log(keysDown);
 }, false);
 
 addEventListener("keyup", function (e) {
@@ -455,28 +455,26 @@ var update = function (modifier) {
 	hero.hitboxY=Math.floor(hero.y+CHARACTER_SIZE/2);
 	boss.hitboxX=Math.floor(boss.x+BOSS_SIZE/2);
 	boss.hitboxY=Math.floor(boss.y+BOSS_SIZE/2);
-	console.log("h:"+hero.hitboxX+" "+hero.x+" "+hero.hitboxY+" "+hero.y);
-	console.log("b:"+boss.hitboxX+" "+boss.x+" "+boss.hitboxY+" "+boss.y);
 
 	if (hero.health>0){
-		if (38 in keysDown&& hero.y>0) { // Player holding up
+		if (87 in keysDown&& hero.y>0) { // Player holding w
 			hero.y -= hero.speed * modifier;
 			isRunning=true;
 		}
-		if (40 in keysDown && hero.y+CHARACTER_SIZE<CANVAS_SIZE) { // Player holding down
+		if (83 in keysDown && hero.y+CHARACTER_SIZE<CANVAS_SIZE) { // Player holding s
 			hero.y += hero.speed * modifier;
 			isRunning=true;
 		}
-		if (37 in keysDown && hero.x>0) { // Player holding left
+		if (65 in keysDown && hero.x>0) { // Player holding a
 			hero.x -= hero.speed * modifier;
 			isRunning=true;
 		}
-		if (39 in keysDown && hero.x+CHARACTER_SIZE<CANVAS_SIZE) { // Player holding right
+		if (68 in keysDown && hero.x+CHARACTER_SIZE<CANVAS_SIZE) { // Player holding d
 			hero.x += hero.speed * modifier;
 			isRunning=true;
 		}
 		//w to shoot fireballs
-		if (87 in keysDown && ( check - hero.lastFireball) > hero.attackSpeed*1000){
+		if (13 in keysDown && ( check - hero.lastFireball) > hero.attackSpeed*1000){
 			hero.fireballs.push(new Fireball(hero.x,hero.y,hero.x-boss.x<0));
 			hero.lastFireball=check;
 			isSlashing=true;
@@ -495,7 +493,7 @@ var update = function (modifier) {
 		if((check - boss.lastCast)>4000){
 			boss.isCasting = true;
 			boss.lastCast = Date.now();
-			boss.currentSpell =  Math.floor(Math.random()*3);
+			boss.currentSpell =  /*Math.floor(Math.random()*3)*/1;
 			boss.targetX=hero.x;
 			boss.targetY=hero.y;
 		}
@@ -553,7 +551,10 @@ var update = function (modifier) {
 
 	if (boss.laserX>0){		
 		boss.laserX+= /*(boss.laserS ? */1/*:-1)*/*SPEED*modifier*4;
-		//if // dégats du laser sur le même Y si hero.x>x 
+		if (boss.laserY <= (hero.hitboxY+CHARACTER_SIZE/3) && hero.hitboxY <= (boss.laserY+CHARACTER_SIZE/3) && hero.hitboxX>boss.laserX){
+			hero.health-=2;
+			damageSound.play();
+		}
 		if (boss.laserX>CANVAS_SIZE){
 			boss.laserX=-1;
 			boss.laserY=-1;
@@ -564,6 +565,12 @@ var update = function (modifier) {
 	if(boss.name=="Gourmandise"){
 		for(let i = 0; i < boss.pins.length;i++){
 			boss.pins[i].x+=SPEED*modifier*(boss.pins[i].sens?1:-1)*boss.pins[i].speed;
+			if (boss.pins[i].x <= (hero.hitboxX+CHARACTER_SIZE/4) && hero.hitboxX <= (boss.pins[i].x+CHARACTER_SIZE/4) && hero.health>0
+				&& hero.hitboxY <= (boss.pins[i].y+CANVAS_SIZE/3) && boss.pins[i].y <= hero.hitboxY){
+					damageSound.play();
+					hero.health-=10;
+				}
+
 		}
 
 		for(let i = 0; i <boss.projectiles.length;i++){
@@ -598,13 +605,14 @@ var update = function (modifier) {
 			}
 		}
 
-		for(let i = 0; i<boss.indgredients.length;i++){
-			console.log("Salut");
+		for(let i = 0; i<boss.ingredients.length;i++){
+			
 		}
 
 	}
 	else{
 		for(let i = 0; i<boss.projectiles.length; i++){
+			console.log("salut");
 			boss.projectiles[i].x+=boss.projectiles[i].variationX[boss.projectiles[i].indice]*SPEED*modifier*PROJECTILES_SPEED;
 			boss.projectiles[i].y+=boss.projectiles[i].variationY[boss.projectiles[i].indice]*SPEED*modifier*PROJECTILES_SPEED;
 			let projX = boss.projectiles[i].x+PROJECTILES_SIZE/2;
@@ -612,18 +620,18 @@ var update = function (modifier) {
 			if (projX>canvas.width || projX<0 ||projY>canvas.width || projY<0 ){
 				boss.projectiles.splice(i,1);
 			}
-			if (projX <= (hero.x +30)&& projY <= (hero.y + CHARACTER_SIZE*0.5)
-				&& hero.x <= (projX +30)&& hero.y <= (projY + CHARACTER_SIZE*0.5)
+			if (projX <= (hero.hitboxX + CHARACTER_SIZE/4)&& projY <= (hero.hitboxY + CHARACTER_SIZE/3)
+				&& hero.hitboxX <= (projX + CHARACTER_SIZE/4)&& hero.hitboxY <= (projY + CHARACTER_SIZE/3)
 				&& hero.health>0 && !boss.projectiles[i].hasTouched){
 					damageSound.play();
 					hero.health-=BOSS_DAMAGE;
-					if (hero.health<0){
-						hero.health=0;
-					}
 					boss.projectiles[i].hasTouched=true;
 			}
 	
 		}
+	}
+	if (hero.health<0){
+		hero.health=0;
 	}
 	
 };
@@ -752,14 +760,12 @@ var render = function () {
 		if(boss.spell()=="pins"){
 			boss.pins.push(new RollingPin(boss.firstRandom*CANVAS_SIZE/3,CANVAS_SIZE,(Math.random()>0.5)));
 			boss.pins.push(new RollingPin(boss.secondRandom*CANVAS_SIZE/3,CANVAS_SIZE,(Math.random()>0.5)));
-			console.log(boss.pins.length);
 			boss.firstRandom=-1;
 			boss.secondRandom=-1;	
 		}
 		if(boss.spell()=="food"){
 			for(let i=0;i<8;i++){
 				boss.projectiles.push(new Projectiles(boss.x+(BOSS_SIZE/2),boss.y+(BOSS_SIZE/2),i));
-				console.log(boss.projectiles[i].x);
 			}
 		}
 		if(boss.spell()=="muffin"){
