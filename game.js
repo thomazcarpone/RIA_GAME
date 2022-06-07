@@ -16,7 +16,7 @@ const PROJECTILES_SIZE=60;
 const BOSS_SIZE=150;
 const BOSS_HP=100;
 const BOSS_DAMAGE=10;
-const CHARACTER_HP=1000;
+const CHARACTER_HP=100;
 const PROJECTILES_SPEED=4;
 const SPEED=256;
     
@@ -377,7 +377,7 @@ class Colere extends Boss{
 		return "projectiles";
 	}
 }
-//var damageSound = new Audio("ressources/game/soundEffect/Damage.m4a");
+var damageSound = new Audio("ressources/game/soundEffect/Eat.m4a");
 var eatSound = new Audio("ressources/game/soundEffect/Eat.m4a");
 
 class Muffin{
@@ -405,7 +405,7 @@ class Hero {
 		this.fireballs = [];
 		this.lastFireball = new Date();
 		this.attackSpeed = 0.6;
-		this.fireballDamage = 100;
+		this.fireballDamage = 8;
 		this.lastAnimation = new Date();
 		this.hitboxX=0;
 		this.hitboxY=0;
