@@ -416,6 +416,9 @@ class Hero {
 var hero = new Hero();
 var throwSpell=false;
 var boss = new Colere();
+var damages = 0;
+var score = 0;
+var starterTimer = Date.now();
 
 // Handle keyboard controls
 var keysDown = {};
@@ -527,8 +530,7 @@ var update = function (modifier) {
 		boss.hitboxX <= (hero.hitboxX + BOSS_SIZE/4)&& boss.hitboxY <= (hero.hitboxY + BOSS_SIZE/2) && 
 		hero.health>0) {
 			hero.health-=boss.damage/10;
-			damageSound.play();
-			
+			damageSound.play();			
 		}
 	
 	//fireball movement
@@ -548,6 +550,7 @@ var update = function (modifier) {
 			&&boss.hp>0){
 				boss.hp-=hero.fireballDamage;
 				hero.fireballs.splice(i,1);
+				damages += hero.fireballDamage;
 		}
 	}
 
@@ -801,11 +804,14 @@ var render = function () {
 		}
 	}
 	
+
+	//UI
+	//Health d
 	ctx.fillStyle = "rgb(250, 250, 250)";
 	ctx.font = "24px Helvetica";
 	ctx.textAlign = "left";
 	ctx.textBaseline = "top";
-	ctx.fillText("Health: " + hero.health + " HP \t BOSS: " + boss.hp + " HP", 32, 32);
+	ctx.fillText("Health: " + hero.health + " HP \t BOSS: " + boss.hp + " HP", 32, 32 );
 
 	
 };
@@ -821,8 +827,21 @@ var main = function () {
 
 	then = now;
 
-	// Request to do this again ASAP
-	requestAnimationFrame(main);
+	if(hero.health <= 0 && heroDyingIndice>=14) {
+
+		ctx.fillText('Game Over !', this.canvas.width * 0.4, this.canvas.height * 0.5);
+
+		score = Math.floor( (3600000 - (Date.now() - starterTimer))/100000 * damages ) ;
+
+		const name = prompt('Your score is : ' +score +' Enter name:');
+        const newScore = { score, name };
+				
+	}
+	else {
+		// Request to do this again ASAP
+		requestAnimationFrame(main);
+	}
+	
 };
 
 // Cross-browser support for requestAnimationFrame
