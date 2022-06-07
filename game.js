@@ -1,3 +1,5 @@
+//import * as hallOfFame from "./hallOfFame_game.js"; 
+
 //rename boss par boss et hero par character
 //mettre des positions fixes de boss et character
 //gestion de mes hp
@@ -27,6 +29,10 @@ var ctx = canvas.getContext("2d");
 canvas.width = CANVAS_SIZE;
 canvas.height = CANVAS_SIZE;
 document.body.appendChild(canvas);
+
+//hall of fame
+const NO_OF_HIGH_SCORES = 10;
+const HIGH_SCORES = 'highScores';
 
 // Background image
 const bgImage = new Image();
@@ -833,8 +839,24 @@ var main = function () {
 
 		score = Math.floor( (3600000 - (Date.now() - starterTimer))/100000 * damages ) ;
 
-		const name = prompt('Your score is : ' +score +' Enter name:');
-        const newScore = { score, name };
+		//create json line
+		    // date
+			today = new Date();
+			dd = String(today.getDate()).padStart(2, '0');
+			mm = String(today.getMonth() + 1).padStart(2, '0'); 
+			yy = today.getFullYear();
+			today = dd + '/' + mm + '/' + yy;
+
+		const name = prompt('Your score is : Enter name:');
+        const newScore = { name, today, damages, time, score };
+
+		highScores.push(newScore);
+
+		highScores.splice(NO_OF_HIGH_SCORES);
+
+		localStorage.setItem(HIGH_SCORES, JSON.stringify(highScores));
+
+		hallOfFame.newPlayer();
 				
 	}
 	else {
