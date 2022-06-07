@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 //rename boss par boss et hero par character
 //mettre des positions fixes de boss et character
 //gestion de mes hp
@@ -11,10 +12,28 @@
 //gérer les hitbox des projectiles avec les centres
 =======
 >>>>>>> 2b16481 (soundfx)
+=======
+>>>>>>> bed583c (Hall of fame - work in progress)
 const DIFFICULTIES=[0.75,1,1.5];
 var currentDifficulty = sessionStorage.getItem("difficulty");
 if(!currentDifficulty)
 	currentDifficulty=0;
+=======
+//import * as hallOfFame from "./hallOfFame_game.js"; 
+
+//rename boss par boss et hero par character
+//mettre des positions fixes de boss et character
+//gestion de mes hp
+//afficher le stage
+//constante hp boss qui se multiplie par rapport au Stage X
+//implémenter les attaques du boss
+//demander à l'enseignant pour la gestion des images !!!
+
+
+//gérer les hitbox des projectiles avec les centres
+const DIFFICULTIES=[0.75,1,3];
+var currentDifficulty=1;
+>>>>>>> e06ead5 (Hall of fame - work in progress)
 var bossMultiplier=1;
 const CHARACTER_SIZE=90;
 const CANVAS_SIZE=700;
@@ -35,6 +54,10 @@ var ctx = canvas.getContext("2d");
 canvas.width = CANVAS_SIZE;
 canvas.height = CANVAS_SIZE;
 document.body.appendChild(canvas);
+
+//hall of fame
+const NO_OF_HIGH_SCORES = 10;
+const HIGH_SCORES = 'highScores';
 
 // Background image
 const bgImage = new Image();
@@ -845,10 +868,13 @@ var main = function () {
 
 		score = Math.floor( (3600000 - (Date.now() - starterTimer))/100000 * damages *DIFFICULTIES[currentDifficulty] ) ;
 
+<<<<<<< HEAD
 		//recuperate json data
 		// const highScoreString = localStorage.getItem(HIGH_SCORES);
 		const highScores = JSON.parse(window.localStorage.getItem(HIGH_SCORES)) ?? [];
 
+=======
+>>>>>>> bed583c (Hall of fame - work in progress)
 		//create json line
 		    // date
 			today = new Date();
@@ -857,6 +883,7 @@ var main = function () {
 			yy = today.getFullYear();
 			today = dd + '/' + mm + '/' + yy;
 
+<<<<<<< HEAD
 		const currentPlayer = prompt('Your score is ' + score + ': Enter name:');
         const newScore = { 
 			name : currentPlayer,
@@ -871,6 +898,18 @@ var main = function () {
 		window.localStorage.setItem(HIGH_SCORES, JSON.stringify(highScores));
 
 		// hallOfFame.newPlayer();
+=======
+		const name = prompt('Your score is : Enter name:');
+        const newScore = { name, today, damages, time, score };
+
+		highScores.push(newScore);
+
+		highScores.splice(NO_OF_HIGH_SCORES);
+
+		localStorage.setItem(HIGH_SCORES, JSON.stringify(highScores));
+
+		hallOfFame.newPlayer();
+>>>>>>> bed583c (Hall of fame - work in progress)
 				
 	}
 	else {
