@@ -7,6 +7,7 @@
     	<link rel="stylesheet" href="ressources/css/headerGame.css">
     	<link rel="stylesheet" href="ressources/css/mainGame.css">
     	<link rel="stylesheet" href="ressources/css/journalDebord.css">
+		<link rel="stylesheet" href="ressources/css/hallOfFame.css">
     </head>
 	<body>
 		<header>
@@ -89,6 +90,23 @@
 				</jeu>			
 			</section>
 		</main>
+		
+		<input type="text" id="inputTest"><button onclick="newPlayer()">oui</button>
+		<leaderboard>
+			<script src="hallOfFame_game.js"></script>
+			<div class="imageContainer">
+				
+				<img src="ressources/images/ramenezlacoupealamaison.png" alt="coupeDuMonde">
+			</div>
+			
+			<table>
+				<thead>
+				  <th>Player</th><th>Date</th><th>Damage</th><th>Time</th><th>Score</th>
+				</thead>
+				<tbody id="thingy"></tbody>
+				<script>displayLeaderboard();</script>
+			</table>
+		</leaderboard>
 
 		<footer>
 			<img id="logo" src="ressources/images/logo.png">
