@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:200,400,400i,700|Roboto+Slab:700');
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    background-color: #C8C8C8;
+    height: 100%;
+}
+
+body {
+    position: relative;
+    margin-top: 0px;
+    margin-left: 100px;
+    margin-right: 100px;
+    background-color: white;
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.7), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    min-height: 100%;
+}
+
+header ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #454545;
+    font-family: roboto slab, serif;
+    font-style: bold;
+    font-weight: 200;
+}
+
+header li {
+    float: left;
+}
+
+header li:last-child {
+  border-right: none;
+}
+
+header li a {
+    display: block;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+header li:hover:not(.active) a{
+    background-color: #111;
+}
+
+header .active {
+    background-color: #FFFFFF;
+}
+
+header .active a{
+    display: block;
+    color: #E26633; /* orange color*/
+    font-weight: bold;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+@media screen and (min-width: 781px) {
+    header nav ul img {
+        display: none;
+    }
+
+    header ul {
+        padding-left: 15px;
+    }
+}
+
+@media screen and (max-width: 780px) {
+    header h1 {
+        font-size: 20px;
+    }
+    header ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #454545;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    header li a {
+        padding: 10px 10px;
+    }
+    header .active a {
+        padding-left: 500px;
+        padding-right: 500px;
+    }
+
+    main {
+        flex-direction: column;
+    }
+
+    img {
+        width: 100%;
+    }
+    #logo {
+        width: 60%;
+    }
+}
