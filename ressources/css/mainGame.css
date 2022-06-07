@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 
-main {
+body {
     background-color: #454545;
 }
 
@@ -112,6 +112,50 @@ main a:link {
 /* visited link */
 main a:visited {
   color: #D14519;
+}
+
+main button {
+    border-right: 20px;
+    border-radius: 4px;
+    background-color: #504f4f;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 20px;
+    padding: 10px;
+    width: 200px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+}
+
+main button:hover {
+    background-color: black;
+}
+  
+main button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+  
+main button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+  
+main button:hover span {
+    padding-right: 25px;
+}
+  
+main button:hover span:after {
+    opacity: 1;
+    right: 0;
 }
 
 body::after {

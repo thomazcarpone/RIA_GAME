@@ -4,13 +4,12 @@
 		<meta charset="utf-8">
 		<title>Simple Canvas Game</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-    	<link rel="stylesheet" href="ressources/css/header.css">
-    	<link rel="stylesheet" href="ressources/css/main.css">
+    	<link rel="stylesheet" href="ressources/css/headerGame.css">
+    	<link rel="stylesheet" href="ressources/css/mainGame.css">
     	<link rel="stylesheet" href="ressources/css/journalDebord.css">
     </head>
 	<body>
 		<header>
-			<h1>HES-SO Vs - 624-2 - HTML/CSS/JavaScript</h1>
 			<nav>
 				<!-- Hamburger -->
 				<ul>
@@ -42,10 +41,51 @@
 		<main>
 			<section id="placeButton">
 				<jeu>
-						<button type="button" onclick="location.href='setting_game.html'">Setting</button>
-						<button type="button" onclick="location.href='game_game.html'">Play</button>
-						<button type="button" onclick="location.href='credit_game.html'">Credit</button>
-						<button type="button" onclick="location.href='hallOfFame_game.html'">Hall of fame</button>
+					<button type="button" style="vertical-align:middle" onclick="location.href='setting_game.html'"><span>Setting</span></button>
+					<button type="button" style="vertical-align:middle" onclick="location.href='game_game.html'"><span>Play</span></button>
+					<button type="button" style="vertical-align:middle" onclick="location.href='credit_game.html'"><span>Credit</span></button>
+					<button type="button" style="vertical-align:middle" onclick="location.href='hallOfFame_game.html'"><span>Hall of fame</span></button>
+					<button type="button" onclick="geoloc();">Where am i</button>
+                <script>
+                    function geoloc(){
+                        if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(show_map, handle_error);
+                    } else {
+                        error('not supported');
+                    }
+                    }
+                    function show_map(position) {
+                        var latitude = position.coords.latitude;
+                        var longitude = position.coords.longitude;
+                        let coordinates = [latitude, longitude];
+                        getCity(coordinates);
+                    }
+                    function handle_error(err) {
+                        alert(err.code);
+                        if (err.code == 1) {
+                            // user said no!
+                        }
+                    }
+                    function getCity(coordinates) {
+                        var xhr = new XMLHttpRequest();
+                        var lat = coordinates[0];
+                        var lng = coordinates[1];
+                        xhr.open('GET', "https://eu1.locationiq.com/v1/reverse.php?key=pk.990ba8fea226a85b4e7f86916f8faa56&lat=" +
+                            lat + "&lon=" + lng + "&format=json", true);
+                        xhr.send();
+                        xhr.onreadystatechange = processRequest;
+                        xhr.addEventListener("readystatechange", processRequest, false);
+                        function processRequest(e) {
+                            if (xhr.readyState == 4 && xhr.status == 200) {
+                                var response = JSON.parse(xhr.responseText);
+                                console.log(response);
+                                var city = response.address.county;
+                                alert("Vous êtes actuellement à " + city)
+                                return city;
+                            }
+                        }
+                    }
+                </script>
 				</jeu>			
 			</section>
 		</main>
