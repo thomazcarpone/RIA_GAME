@@ -8,8 +8,9 @@
 
 
 //gérer les hitbox des projectiles avec les centres
-const DIFFICULTIES=[0.75,1,2];
+const DIFFICULTIES=[0.75,1,3];
 var currentDifficulty=1;
+var bossMultiplier=1;
 const CHARACTER_SIZE=90;
 const CANVAS_SIZE=700;
 const PROJECTILES_SIZE=60;
@@ -436,7 +437,10 @@ var reset = function () {
 	// Throw the boss somewhere on the screen randomly
 	//boss.x = 32 + (Math.random() * (canvas.width - 64));
 	//boss.y = 32 + (Math.random() * (canvas.height - 64));
-	if (boss.hp!=100){
+	if (boss.name=="Gourmandise"){
+		boss = new Colere();
+		hero.speed=SPEED;
+	} else {
 		boss = new Gourmandise();
 	}
 	boss.x = 100;
@@ -493,7 +497,7 @@ var update = function (modifier) {
 		if((check - boss.lastCast)>4000){
 			boss.isCasting = true;
 			boss.lastCast = Date.now();
-			boss.currentSpell =  /*Math.floor(Math.random()*3)*/1;
+			boss.currentSpell =  Math.floor(Math.random()*3);
 			boss.targetX=hero.x;
 			boss.targetY=hero.y;
 		}
@@ -522,7 +526,7 @@ var update = function (modifier) {
 	if (hero.hitboxX <= (boss.hitboxX + BOSS_SIZE/4)&& hero.hitboxY <= (boss.hitboxY + BOSS_SIZE/2) &&
 		boss.hitboxX <= (hero.hitboxX + BOSS_SIZE/4)&& boss.hitboxY <= (hero.hitboxY + BOSS_SIZE/2) && 
 		hero.health>0) {
-			hero.health-=1;
+			hero.health-=boss.damage/10;
 			damageSound.play();
 			
 		}
@@ -552,7 +556,7 @@ var update = function (modifier) {
 	if (boss.laserX>0){		
 		boss.laserX+= /*(boss.laserS ? */1/*:-1)*/*SPEED*modifier*4;
 		if (boss.laserY <= (hero.hitboxY+CHARACTER_SIZE/3) && hero.hitboxY <= (boss.laserY+CHARACTER_SIZE/3) && hero.hitboxX>boss.laserX){
-			hero.health-=2;
+			hero.health-=boss.damage/5;
 			damageSound.play();
 		}
 		if (boss.laserX>CANVAS_SIZE){
@@ -568,7 +572,7 @@ var update = function (modifier) {
 			if (boss.pins[i].x <= (hero.hitboxX+CHARACTER_SIZE/4) && hero.hitboxX <= (boss.pins[i].x+CHARACTER_SIZE/4) && hero.health>0
 				&& hero.hitboxY <= (boss.pins[i].y+CANVAS_SIZE/3) && boss.pins[i].y <= hero.hitboxY){
 					damageSound.play();
-					hero.health-=10;
+					hero.health-=boss.damage;
 				}
 
 		}
@@ -624,7 +628,7 @@ var update = function (modifier) {
 				&& hero.hitboxX <= (projX + CHARACTER_SIZE/4)&& hero.hitboxY <= (projY + CHARACTER_SIZE/3)
 				&& hero.health>0 && !boss.projectiles[i].hasTouched){
 					damageSound.play();
-					hero.health-=BOSS_DAMAGE;
+					hero.health-=boss.damage;
 					boss.projectiles[i].hasTouched=true;
 			}
 	
