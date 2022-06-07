@@ -801,7 +801,6 @@ var render = function () {
 		}
 	}
 	
-	
 	ctx.fillStyle = "rgb(250, 250, 250)";
 	ctx.font = "24px Helvetica";
 	ctx.textAlign = "left";
