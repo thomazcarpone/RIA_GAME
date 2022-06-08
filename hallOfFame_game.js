@@ -30,8 +30,20 @@ function newPlayer() {
     newP = new Player(newname, today, damage, time, newscore);
     newPlayers = [newP];
     Players.push.apply(Players, newPlayers);
+    highScoresList();
     displayLeaderboard();
 }
+
+// catch list from local storage
+function highScoresList() {
+    // const highScoreString = window.localStorage.getItem(HIGH_SCORES);
+    const highScores = JSON.parse(window.localStorage.getItem(HIGH_SCORES)) ?? [];
+
+
+
+    const highScoreList = document.getElementById(HIGH_SCORES);
+
+} 
 
 // Create new players
 player1 = new Player("Thomas", "01/23/2018", 201, 30, 2098);
@@ -40,9 +52,16 @@ player3 = new Player("Lisa", "06/04/2018", 79, 20, 803);
 Players = [player1, player2, player3];
 
 function displayLeaderboard() {
-    let theExport = ""; 
-    Players.sort((aPlayer, bPlayer) => aPlayer.score - bPlayer.score);
-    Players.forEach((player) => theExport += '<tr><td>' + player.name + '</td><td>' + player.date + '</td><td>' + player.damage + '</td><td>' + player.time + '</td><td>' + player.score + '</tr>');
+
+    const highScores = JSON.parse(window.localStorage.getItem('highScores')) ?? [];
+
+    let theExport ="";
+    highScores.sort((aPlayer, bPlayer) => aPlayer.score - bPlayer.score).reverse();
+    highScores.forEach((player) => theExport += '<tr><td>' + player.name + '</td><td>' + player.date + '</td><td>' + player.damage + '</td><td>' + player.time + '</td><td>' + player.score + '</tr>');
     document.getElementById("thingy").innerHTML = theExport; 
+
+    // Players.sort((aPlayer, bPlayer) => aPlayer.score - bPlayer.score);
+    // Players.forEach((player) => theExport += '<tr><td>' + player.name + '</td><td>' + player.date + '</td><td>' + player.damage + '</td><td>' + player.time + '</td><td>' + player.score + '</tr>');
+    // document.getElementById("thingy").innerHTML = theExport; 
 }
 
