@@ -22,7 +22,7 @@ document.body.appendChild(canvas);
 
 // Background image
 const bgImage = new Image();
-bgImage.src = "ressources/game/background.png";
+bgImage.src = localStorage.getItem("chosenMap");
 
 //laser boss and projectiles
 const prelaser0 = new Image();
