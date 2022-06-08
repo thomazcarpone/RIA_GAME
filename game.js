@@ -857,8 +857,9 @@ var main = function () {
 		const currentPlayer = prompt('Your score is ' + score + ': Enter name:');
         const newScore = { 
 			name : currentPlayer,
-			time : today,
+			date : today,
 			damage : damages,
+			time : (((Date.now() - starterTimer)/2000).toFixed(2)),
 			score : score,
 		 }
 
