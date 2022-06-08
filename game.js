@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 //rename boss par boss et hero par character
 //mettre des positions fixes de boss et character
 //gestion de mes hp
@@ -11,48 +8,11 @@
 
 
 //gérer les hitbox des projectiles avec les centres
-=======
->>>>>>> 2b16481 (soundfx)
-=======
->>>>>>> bed583c (Hall of fame - work in progress)
-=======
->>>>>>> 0ecba35 (rebase)
-const DIFFICULTIES=[0.75,1,1.5];
-var currentDifficulty = sessionStorage.getItem("difficulty");
-if(!currentDifficulty)
-	currentDifficulty=0;
-=======
-//import * as hallOfFame from "./hallOfFame_game.js"; 
-
-=======
->>>>>>> bc2a6da (rebase)
-//rename boss par boss et hero par character
-//mettre des positions fixes de boss et character
-//gestion de mes hp
-//afficher le stage
-//constante hp boss qui se multiplie par rapport au Stage X
-//implémenter les attaques du boss
-//demander à l'enseignant pour la gestion des images !!!
-
-
-//gérer les hitbox des projectiles avec les centres
-<<<<<<< HEAD
-<<<<<<< HEAD
-const DIFFICULTIES=[0.75,1,3];
-var currentDifficulty=1;
->>>>>>> e06ead5 (Hall of fame - work in progress)
-var bossMultiplier=1;
-=======
-const DIFFICULTIES=[0.75,1,2];
-var currentDifficulty=1;
->>>>>>> bc2a6da (rebase)
-=======
 const DIFFICULTIES=[0.75,1,1.5];
 var currentDifficulty = sessionStorage.getItem("difficulty");
 if(!currentDifficulty)
 	currentDifficulty=0;
 var bossMultiplier=1;
->>>>>>> d3ccf87 (hall of fame ok côté game.js)
 const CHARACTER_SIZE=90;
 const CANVAS_SIZE=700;
 const PROJECTILES_SIZE=60;
@@ -75,7 +35,7 @@ document.body.appendChild(canvas);
 
 // Background image
 const bgImage = new Image();
-bgImage.src = localStorage.getItem("chosenMap");
+bgImage.src = "ressources/game/background.png";
 
 //laser boss and projectiles
 const prelaser0 = new Image();
@@ -499,10 +459,8 @@ var reset = function () {
 	
 };
 
-
-
 // Update game objects
-var update = function (modifier,callback) {
+var update = function (modifier) {
 	let check = new Date();
 	
 	//set the hitbox on a center point
@@ -581,19 +539,8 @@ var update = function (modifier,callback) {
 	if (hero.hitboxX <= (boss.hitboxX + BOSS_SIZE/4)&& hero.hitboxY <= (boss.hitboxY + BOSS_SIZE/2) &&
 		boss.hitboxX <= (hero.hitboxX + BOSS_SIZE/4)&& boss.hitboxY <= (hero.hitboxY + BOSS_SIZE/2) && 
 		hero.health>0) {
-<<<<<<< HEAD
-<<<<<<< HEAD
 			hero.health-=Math.floor(boss.damage/10) + (Math.floor(boss.damage/10)==0?1:0);
 			damageSound[Math.floor(Math.random()*5)].play();			
-=======
-			hero.health-=1;
-			damageSound.play();
-			
->>>>>>> bc2a6da (rebase)
-=======
-			hero.health-=Math.floor(boss.damage/10) + (Math.floor(boss.damage/10)==0?1:0);
-			damageSound[Math.floor(Math.random()*5)].play();			
->>>>>>> d3ccf87 (hall of fame ok côté game.js)
 		}
 	
 	//fireball movement
@@ -621,20 +568,10 @@ var update = function (modifier,callback) {
 
 	if (boss.laserX>0){		
 		boss.laserX+= /*(boss.laserS ? */1/*:-1)*/*SPEED*modifier*4;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> d3ccf87 (hall of fame ok côté game.js)
 		if (boss.laserY <= (hero.hitboxY+CHARACTER_SIZE/3) && hero.hitboxY <= (boss.laserY+CHARACTER_SIZE/3) && hero.hitboxX>boss.laserX){
 			hero.health-=Math.floor(boss.damage/5);
 			damageSound[Math.floor(Math.random()*5)].play();
 		}
-<<<<<<< HEAD
-=======
-		//if // dégats du laser sur le même Y si hero.x>x 
->>>>>>> bc2a6da (rebase)
-=======
->>>>>>> d3ccf87 (hall of fame ok côté game.js)
 		if (boss.laserX>CANVAS_SIZE){
 			boss.laserX=-1;
 			boss.laserY=-1;
@@ -645,21 +582,12 @@ var update = function (modifier,callback) {
 	if(boss.name=="Gourmandise"){
 		for(let i = 0; i < boss.pins.length;i++){
 			boss.pins[i].x+=SPEED*modifier*(boss.pins[i].sens?1:-1)*boss.pins[i].speed;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> d3ccf87 (hall of fame ok côté game.js)
 			if (boss.pins[i].x <= (hero.hitboxX+CHARACTER_SIZE/4) && hero.hitboxX <= (boss.pins[i].x+CHARACTER_SIZE/4) && hero.health>0
 				&& hero.hitboxY <= (boss.pins[i].y+CANVAS_SIZE/3) && boss.pins[i].y <= hero.hitboxY){
 					damageSound[Math.floor(Math.random()*5)].play();
 					hero.health-=Math.floor(boss.damage);
 				}
 
-<<<<<<< HEAD
-=======
->>>>>>> bc2a6da (rebase)
-=======
->>>>>>> d3ccf87 (hall of fame ok côté game.js)
 		}
 
 		for(let i = 0; i <boss.projectiles.length;i++){
@@ -674,18 +602,8 @@ var update = function (modifier,callback) {
 
 			if (pX <= (hero.hitboxX+CHARACTER_SIZE/4) && pY <= (hero.hitboxY+CHARACTER_SIZE/3) &&
 				hero.hitboxX <= (pX+CHARACTER_SIZE/4) && hero.hitboxY <= (pY+CHARACTER_SIZE/3)){
-<<<<<<< HEAD
-<<<<<<< HEAD
 					damageSound[Math.floor(Math.random()*5)].play();
 					hero.health-=Math.floor(boss.damage);
-=======
-					damageSound.play();
-					hero.health-=boss.damage*2;
->>>>>>> bc2a6da (rebase)
-=======
-					damageSound[Math.floor(Math.random()*5)].play();
-					hero.health-=Math.floor(boss.damage);
->>>>>>> d3ccf87 (hall of fame ok côté game.js)
 					boss.projectiles.splice(i,1);
 				}
 		}
@@ -721,21 +639,8 @@ var update = function (modifier,callback) {
 			if (projX <= (hero.hitboxX + CHARACTER_SIZE/4)&& projY <= (hero.hitboxY + CHARACTER_SIZE/3)
 				&& hero.hitboxX <= (projX + CHARACTER_SIZE/4)&& hero.hitboxY <= (projY + CHARACTER_SIZE/3)
 				&& hero.health>0 && !boss.projectiles[i].hasTouched){
-<<<<<<< HEAD
-<<<<<<< HEAD
 					damageSound[Math.floor(Math.random()*5)].play();
 					hero.health-=Math.floor(boss.damage);
-=======
-					damageSound.play();
-					hero.health-=BOSS_DAMAGE;
-					if (hero.health<0){
-						hero.health=0;
-					}
->>>>>>> bc2a6da (rebase)
-=======
-					damageSound[Math.floor(Math.random()*5)].play();
-					hero.health-=Math.floor(boss.damage);
->>>>>>> d3ccf87 (hall of fame ok côté game.js)
 					boss.projectiles[i].hasTouched=true;
 			}
 	
@@ -744,7 +649,7 @@ var update = function (modifier,callback) {
 	if (hero.health<0){
 		hero.health=0;
 	}
-	callback();
+	
 };
 
 
@@ -920,25 +825,15 @@ var render = function () {
 	
 };
 
-
-var regen = function regenHp(){
-	if(hero.health<100){
-		hero.health+=1;
-	}
-};
-
-var checkRegen = false;
 // The main game loop
 var main = function () {
 	var now = Date.now();
 	var delta = now - then;
 
-	if (!checkRegen){
-		setInterval(regen,5000);
-		checkRegen = true;
-	}
-	update(delta / 1000, render);
-	
+	update(delta / 1000);
+    //console.log(delta);
+	render();
+
 	then = now;
 
 	if(hero.health <= 0 && heroDyingIndice>=14) {
@@ -947,19 +842,10 @@ var main = function () {
 
 		score = Math.floor( (3600000 - (Date.now() - starterTimer))/100000 * damages *DIFFICULTIES[currentDifficulty] ) ;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 7c35f71 (hall of fame ok côté game.js)
 		//recuperate json data
 		// const highScoreString = localStorage.getItem(HIGH_SCORES);
 		const highScores = JSON.parse(window.localStorage.getItem(HIGH_SCORES)) ?? [];
 
-<<<<<<< HEAD
-=======
->>>>>>> bed583c (Hall of fame - work in progress)
-=======
->>>>>>> 7c35f71 (hall of fame ok côté game.js)
 		//create json line
 		    // date
 			today = new Date();
@@ -968,9 +854,6 @@ var main = function () {
 			yy = today.getFullYear();
 			today = dd + '/' + mm + '/' + yy;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 		const currentPlayer = prompt('Your score is ' + score + ': Enter name:');
         const newScore = { 
 			name : currentPlayer,
@@ -985,32 +868,6 @@ var main = function () {
 		window.localStorage.setItem(HIGH_SCORES, JSON.stringify(highScores));
 
 		// hallOfFame.newPlayer();
-=======
-		const name = prompt('Your score is : Enter name:');
-        const newScore = { name, today, damages, time, score };
-=======
-		const currentPlayer = prompt('Your score is : Enter name:');
-=======
-		const currentPlayer = prompt('Your score is ' + score + ': Enter name:');
->>>>>>> 7c35f71 (hall of fame ok côté game.js)
-        const newScore = { 
-			name : currentPlayer,
-			time : today,
-			damage : damages,
-			score : score,
-		 }
->>>>>>> 0ecba35 (rebase)
-
-		highScores.push(newScore);
-
-		window.localStorage.setItem(HIGH_SCORES, JSON.stringify(highScores));
-
-<<<<<<< HEAD
-		hallOfFame.newPlayer();
->>>>>>> bed583c (Hall of fame - work in progress)
-=======
-		// hallOfFame.newPlayer();
->>>>>>> 0ecba35 (rebase)
 				
 	}
 	else {
