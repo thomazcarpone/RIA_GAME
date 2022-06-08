@@ -1,10 +1,3 @@
-//rename boss par boss et hero par character
-//mettre des positions fixes de boss et character
-//gestion de mes hp
-//afficher le stage
-//constante hp boss qui se multiplie par rapport au Stage X
-//implémenter les attaques du boss
-//demander à l'enseignant pour la gestion des images !!!
 const DIFFICULTIES=[0.75,1,1.5];
 var currentDifficulty = sessionStorage.getItem("difficulty");
 if(!currentDifficulty)
@@ -378,8 +371,10 @@ class Colere extends Boss{
 		return "projectiles";
 	}
 }
-var damageSound = new Audio("ressources/game/soundEffect/Eat.m4a");
+var damageSound = [new Audio("ressources/game/soundEffect/Damage.m4a"),new Audio("ressources/game/soundEffect/Damage1.m4a"),new Audio("ressources/game/soundEffect/Damage2.m4a")	
+			,new Audio("ressources/game/soundEffect/Damage3.m4a"),new Audio("ressources/game/soundEffect/Damage4.m4a")];
 var eatSound = new Audio("ressources/game/soundEffect/Eat.m4a");
+var fireballSound = new Audio("ressources/game/soundEffect/Fireball.m4a");
 
 class Muffin{
 	constructor(){
@@ -484,6 +479,7 @@ var update = function (modifier) {
 		if (13 in keysDown && ( check - hero.lastFireball) > hero.attackSpeed*1000){
 			hero.fireballs.push(new Fireball(hero.x,hero.y,hero.x-boss.x<0));
 			hero.lastFireball=check;
+			fireballSound.play();
 			isSlashing=true;
 		}
 	}
@@ -530,8 +526,8 @@ var update = function (modifier) {
 	if (hero.hitboxX <= (boss.hitboxX + BOSS_SIZE/4)&& hero.hitboxY <= (boss.hitboxY + BOSS_SIZE/2) &&
 		boss.hitboxX <= (hero.hitboxX + BOSS_SIZE/4)&& boss.hitboxY <= (hero.hitboxY + BOSS_SIZE/2) && 
 		hero.health>0) {
-			hero.health-=Math.floor(boss.damage/10);
-			damageSound.play();			
+			hero.health-=Math.floor(boss.damage/10) + (Math.floor(boss.damage/10)==0?1:0);
+			damageSound[Math.floor(Math.random()*5)].play();			
 		}
 	
 	//fireball movement
@@ -561,7 +557,7 @@ var update = function (modifier) {
 		boss.laserX+= /*(boss.laserS ? */1/*:-1)*/*SPEED*modifier*4;
 		if (boss.laserY <= (hero.hitboxY+CHARACTER_SIZE/3) && hero.hitboxY <= (boss.laserY+CHARACTER_SIZE/3) && hero.hitboxX>boss.laserX){
 			hero.health-=Math.floor(boss.damage/5);
-			damageSound.play();
+			damageSound[Math.floor(Math.random()*5)].play();
 		}
 		if (boss.laserX>CANVAS_SIZE){
 			boss.laserX=-1;
@@ -575,7 +571,7 @@ var update = function (modifier) {
 			boss.pins[i].x+=SPEED*modifier*(boss.pins[i].sens?1:-1)*boss.pins[i].speed;
 			if (boss.pins[i].x <= (hero.hitboxX+CHARACTER_SIZE/4) && hero.hitboxX <= (boss.pins[i].x+CHARACTER_SIZE/4) && hero.health>0
 				&& hero.hitboxY <= (boss.pins[i].y+CANVAS_SIZE/3) && boss.pins[i].y <= hero.hitboxY){
-					damageSound.play();
+					damageSound[Math.floor(Math.random()*5)].play();
 					hero.health-=Math.floor(boss.damage);
 				}
 
@@ -593,8 +589,8 @@ var update = function (modifier) {
 
 			if (pX <= (hero.hitboxX+CHARACTER_SIZE/4) && pY <= (hero.hitboxY+CHARACTER_SIZE/3) &&
 				hero.hitboxX <= (pX+CHARACTER_SIZE/4) && hero.hitboxY <= (pY+CHARACTER_SIZE/3)){
-					damageSound.play();
-					hero.health-=Math.floor(boss.damage/2);
+					damageSound[Math.floor(Math.random()*5)].play();
+					hero.health-=Math.floor(boss.damage);
 					boss.projectiles.splice(i,1);
 				}
 		}
@@ -630,7 +626,7 @@ var update = function (modifier) {
 			if (projX <= (hero.hitboxX + CHARACTER_SIZE/4)&& projY <= (hero.hitboxY + CHARACTER_SIZE/3)
 				&& hero.hitboxX <= (projX + CHARACTER_SIZE/4)&& hero.hitboxY <= (projY + CHARACTER_SIZE/3)
 				&& hero.health>0 && !boss.projectiles[i].hasTouched){
-					damageSound.play();
+					damageSound[Math.floor(Math.random()*5)].play();
 					hero.health-=Math.floor(boss.damage);
 					boss.projectiles[i].hasTouched=true;
 			}
