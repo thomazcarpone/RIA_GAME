@@ -1,5 +1,3 @@
-//import * as hallOfFame from "./hallOfFame_game.js"; 
-
 //rename boss par boss et hero par character
 //mettre des positions fixes de boss et character
 //gestion de mes hp
@@ -7,11 +5,11 @@
 //constante hp boss qui se multiplie par rapport au Stage X
 //implémenter les attaques du boss
 //demander à l'enseignant pour la gestion des images !!!
-const DIFFICULTIES=[0.75,1,1.5];
-var currentDifficulty = sessionStorage.getItem("difficulty");
-if(!currentDifficulty)
-	currentDifficulty=0;
-var bossMultiplier=1;
+
+
+//gérer les hitbox des projectiles avec les centres
+const DIFFICULTIES=[0.75,1,2];
+var currentDifficulty=1;
 const CHARACTER_SIZE=90;
 const CANVAS_SIZE=700;
 const PROJECTILES_SIZE=60;
@@ -28,10 +26,6 @@ var ctx = canvas.getContext("2d");
 canvas.width = CANVAS_SIZE;
 canvas.height = CANVAS_SIZE;
 document.body.appendChild(canvas);
-
-//hall of fame
-const NO_OF_HIGH_SCORES = 10;
-const HIGH_SCORES = 'highScores';
 
 // Background image
 const bgImage = new Image();
@@ -259,9 +253,8 @@ class Fireball{
 
 class Boss{
 	constructor(){
-		this.hp = BOSS_HP*DIFFICULTIES[currentDifficulty]*bossMultiplier;
-		this.damage = BOSS_DAMAGE*DIFFICULTIES[currentDifficulty]*bossMultiplier;
-		this.speed = SPEED/5*bossMultiplier; 
+		this.hp=BOSS_HP;
+		this.damage = BOSS_DAMAGE;
 		this.x = 600;
 		this.y = 600;
 		this.isCasting=false;
@@ -285,7 +278,7 @@ class Gourmandise extends Boss{
 		this.bossImage.src = "ressources/game/gourmandise.png";
 		this.pins = [];
 		this.muffins = [];
-		this.ingredients = [];
+		this.indgredients = [];
 	}
 	spell(){
 		if(this.currentSpell==0){
@@ -412,7 +405,7 @@ class Hero {
 		this.fireballs = [];
 		this.lastFireball = new Date();
 		this.attackSpeed = 0.6;
-		this.fireballDamage = 12;
+		this.fireballDamage = 8;
 		this.lastAnimation = new Date();
 		this.hitboxX=0;
 		this.hitboxY=0;
@@ -422,16 +415,13 @@ class Hero {
 var hero = new Hero();
 var throwSpell=false;
 var boss = new Colere();
-var damages = 0;
-var score = 0;
-var starterTimer = Date.now();
 
 // Handle keyboard controls
 var keysDown = {};
 
 addEventListener("keydown", function (e) {
 	keysDown[e.keyCode] = true;
-    //console.log(keysDown);
+    console.log(keysDown);
 }, false);
 
 addEventListener("keyup", function (e) {
@@ -440,16 +430,13 @@ addEventListener("keyup", function (e) {
 
 // Reset the game when the player catches a boss
 var reset = function () {
-	hero.x = canvas.width / 2 + canvas.width/4;
-	hero.y = canvas.height / 2 + canvas.width/4;
+	hero.x = canvas.width / 2;
+	hero.y = canvas.height / 2;
 
 	// Throw the boss somewhere on the screen randomly
 	//boss.x = 32 + (Math.random() * (canvas.width - 64));
 	//boss.y = 32 + (Math.random() * (canvas.height - 64));
-	if (boss.name=="Gourmandise"){
-		boss = new Colere();
-		hero.speed=SPEED;
-	} else {
+	if (boss.hp!=100){
 		boss = new Gourmandise();
 	}
 	boss.x = 100;
@@ -468,26 +455,28 @@ var update = function (modifier) {
 	hero.hitboxY=Math.floor(hero.y+CHARACTER_SIZE/2);
 	boss.hitboxX=Math.floor(boss.x+BOSS_SIZE/2);
 	boss.hitboxY=Math.floor(boss.y+BOSS_SIZE/2);
-	console.log(currentDifficulty);
+	console.log("h:"+hero.hitboxX+" "+hero.x+" "+hero.hitboxY+" "+hero.y);
+	console.log("b:"+boss.hitboxX+" "+boss.x+" "+boss.hitboxY+" "+boss.y);
+
 	if (hero.health>0){
-		if (87 in keysDown&& hero.y>0) { // Player holding w
+		if (38 in keysDown&& hero.y>0) { // Player holding up
 			hero.y -= hero.speed * modifier;
 			isRunning=true;
 		}
-		if (83 in keysDown && hero.y+CHARACTER_SIZE<CANVAS_SIZE) { // Player holding s
+		if (40 in keysDown && hero.y+CHARACTER_SIZE<CANVAS_SIZE) { // Player holding down
 			hero.y += hero.speed * modifier;
 			isRunning=true;
 		}
-		if (65 in keysDown && hero.x>0) { // Player holding a
+		if (37 in keysDown && hero.x>0) { // Player holding left
 			hero.x -= hero.speed * modifier;
 			isRunning=true;
 		}
-		if (68 in keysDown && hero.x+CHARACTER_SIZE<CANVAS_SIZE) { // Player holding d
+		if (39 in keysDown && hero.x+CHARACTER_SIZE<CANVAS_SIZE) { // Player holding right
 			hero.x += hero.speed * modifier;
 			isRunning=true;
 		}
 		//w to shoot fireballs
-		if (13 in keysDown && ( check - hero.lastFireball) > hero.attackSpeed*1000){
+		if (87 in keysDown && ( check - hero.lastFireball) > hero.attackSpeed*1000){
 			hero.fireballs.push(new Fireball(hero.x,hero.y,hero.x-boss.x<0));
 			hero.lastFireball=check;
 			isSlashing=true;
@@ -514,30 +503,30 @@ var update = function (modifier) {
 	//console.log(boss.isCasting);
 	if(!boss.isCasting){
 		if (hero.hitboxX>boss.hitboxX){
-			boss.x += boss.speed*modifier;
+			boss.x += SPEED/5*modifier;
 		}
 		if (hero.hitboxX<boss.hitboxX){
-			boss.x -= boss.speed*modifier;
+			boss.x -= SPEED/5*modifier;
 		}
 		if (hero.hitboxY>boss.hitboxY){
-			boss.y += boss.speed*modifier;
+			boss.y += SPEED/5*modifier;
 		}
 		if (hero.hitboxY<boss.hitboxY){
-			boss.y -= boss.speed*modifier;
+			boss.y -= SPEED/5*modifier;
 		}
 	}
 	//console.log(keysDown)
 
 	// Are they touching?
 	if (boss.hp<=0) {
-		bossMultiplier++;
 		reset();
 	}
 	if (hero.hitboxX <= (boss.hitboxX + BOSS_SIZE/4)&& hero.hitboxY <= (boss.hitboxY + BOSS_SIZE/2) &&
 		boss.hitboxX <= (hero.hitboxX + BOSS_SIZE/4)&& boss.hitboxY <= (hero.hitboxY + BOSS_SIZE/2) && 
 		hero.health>0) {
-			hero.health-=Math.floor(boss.damage/10);
-			damageSound.play();			
+			hero.health-=1;
+			damageSound.play();
+			
 		}
 	
 	//fireball movement
@@ -557,7 +546,6 @@ var update = function (modifier) {
 			&&boss.hp>0){
 				boss.hp-=hero.fireballDamage;
 				hero.fireballs.splice(i,1);
-				damages += hero.fireballDamage;
 		}
 	}
 
@@ -565,10 +553,7 @@ var update = function (modifier) {
 
 	if (boss.laserX>0){		
 		boss.laserX+= /*(boss.laserS ? */1/*:-1)*/*SPEED*modifier*4;
-		if (boss.laserY <= (hero.hitboxY+CHARACTER_SIZE/3) && hero.hitboxY <= (boss.laserY+CHARACTER_SIZE/3) && hero.hitboxX>boss.laserX){
-			hero.health-=Math.floor(boss.damage/5);
-			damageSound.play();
-		}
+		//if // dégats du laser sur le même Y si hero.x>x 
 		if (boss.laserX>CANVAS_SIZE){
 			boss.laserX=-1;
 			boss.laserY=-1;
@@ -579,12 +564,6 @@ var update = function (modifier) {
 	if(boss.name=="Gourmandise"){
 		for(let i = 0; i < boss.pins.length;i++){
 			boss.pins[i].x+=SPEED*modifier*(boss.pins[i].sens?1:-1)*boss.pins[i].speed;
-			if (boss.pins[i].x <= (hero.hitboxX+CHARACTER_SIZE/4) && hero.hitboxX <= (boss.pins[i].x+CHARACTER_SIZE/4) && hero.health>0
-				&& hero.hitboxY <= (boss.pins[i].y+CANVAS_SIZE/3) && boss.pins[i].y <= hero.hitboxY){
-					damageSound.play();
-					hero.health-=Math.floor(boss.damage);
-				}
-
 		}
 
 		for(let i = 0; i <boss.projectiles.length;i++){
@@ -600,7 +579,7 @@ var update = function (modifier) {
 			if (pX <= (hero.hitboxX+CHARACTER_SIZE/4) && pY <= (hero.hitboxY+CHARACTER_SIZE/3) &&
 				hero.hitboxX <= (pX+CHARACTER_SIZE/4) && hero.hitboxY <= (pY+CHARACTER_SIZE/3)){
 					damageSound.play();
-					hero.health-=Math.floor(boss.damage/2);
+					hero.health-=boss.damage*2;
 					boss.projectiles.splice(i,1);
 				}
 		}
@@ -619,8 +598,8 @@ var update = function (modifier) {
 			}
 		}
 
-		for(let i = 0; i<boss.ingredients.length;i++){
-			
+		for(let i = 0; i<boss.indgredients.length;i++){
+			console.log("Salut");
 		}
 
 	}
@@ -633,18 +612,18 @@ var update = function (modifier) {
 			if (projX>canvas.width || projX<0 ||projY>canvas.width || projY<0 ){
 				boss.projectiles.splice(i,1);
 			}
-			if (projX <= (hero.hitboxX + CHARACTER_SIZE/4)&& projY <= (hero.hitboxY + CHARACTER_SIZE/3)
-				&& hero.hitboxX <= (projX + CHARACTER_SIZE/4)&& hero.hitboxY <= (projY + CHARACTER_SIZE/3)
+			if (projX <= (hero.x +30)&& projY <= (hero.y + CHARACTER_SIZE*0.5)
+				&& hero.x <= (projX +30)&& hero.y <= (projY + CHARACTER_SIZE*0.5)
 				&& hero.health>0 && !boss.projectiles[i].hasTouched){
 					damageSound.play();
-					hero.health-=Math.floor(boss.damage);
+					hero.health-=BOSS_DAMAGE;
+					if (hero.health<0){
+						hero.health=0;
+					}
 					boss.projectiles[i].hasTouched=true;
 			}
 	
 		}
-	}
-	if (hero.health<0){
-		hero.health=0;
 	}
 	
 };
@@ -773,12 +752,14 @@ var render = function () {
 		if(boss.spell()=="pins"){
 			boss.pins.push(new RollingPin(boss.firstRandom*CANVAS_SIZE/3,CANVAS_SIZE,(Math.random()>0.5)));
 			boss.pins.push(new RollingPin(boss.secondRandom*CANVAS_SIZE/3,CANVAS_SIZE,(Math.random()>0.5)));
+			console.log(boss.pins.length);
 			boss.firstRandom=-1;
 			boss.secondRandom=-1;	
 		}
 		if(boss.spell()=="food"){
-			for(let i=0;i<2;i++){
+			for(let i=0;i<8;i++){
 				boss.projectiles.push(new Projectiles(boss.x+(BOSS_SIZE/2),boss.y+(BOSS_SIZE/2),i));
+				console.log(boss.projectiles[i].x);
 			}
 		}
 		if(boss.spell()=="muffin"){
@@ -810,14 +791,12 @@ var render = function () {
 		}
 	}
 	
-
-	//UI
-	//Health d
+	
 	ctx.fillStyle = "rgb(250, 250, 250)";
 	ctx.font = "24px Helvetica";
 	ctx.textAlign = "left";
 	ctx.textBaseline = "top";
-	ctx.fillText("Health: " + hero.health + " HP \t BOSS: " + boss.hp + " HP", 32, 32 );
+	ctx.fillText("Health: " + hero.health + " HP \t BOSS: " + boss.hp + " HP", 32, 32);
 
 	
 };
@@ -847,23 +826,25 @@ var main = function () {
 			yy = today.getFullYear();
 			today = dd + '/' + mm + '/' + yy;
 
-		const name = prompt('Your score is : Enter name:');
-        const newScore = { name, today, damages, time, score };
+		const currentPlayer = prompt('Your score is : Enter name:');
+        const newScore = { 
+			name : currentPlayer,
+			time : today,
+			damage : damages,
+			score : score,
+		 }
 
 		highScores.push(newScore);
 
-		highScores.splice(NO_OF_HIGH_SCORES);
-
 		localStorage.setItem(HIGH_SCORES, JSON.stringify(highScores));
 
-		hallOfFame.newPlayer();
+		// hallOfFame.newPlayer();
 				
 	}
 	else {
 		// Request to do this again ASAP
 		requestAnimationFrame(main);
 	}
-	
 };
 
 // Cross-browser support for requestAnimationFrame
@@ -874,3 +855,4 @@ requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame
 var then = Date.now();
 reset();
 main();
+
