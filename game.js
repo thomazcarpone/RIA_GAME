@@ -5,11 +5,8 @@
 //constante hp boss qui se multiplie par rapport au Stage X
 //implémenter les attaques du boss
 //demander à l'enseignant pour la gestion des images !!!
-
-
-//gérer les hitbox des projectiles avec les centres
-const DIFFICULTIES=[0.75,1,3];
-var currentDifficulty=1;
+const DIFFICULTIES=[0.75,1,1.5];
+var currentDifficulty = sessionStorage.getItem("difficulty");
 var bossMultiplier=1;
 const CHARACTER_SIZE=90;
 const CANVAS_SIZE=700;
@@ -462,7 +459,7 @@ var update = function (modifier) {
 	hero.hitboxY=Math.floor(hero.y+CHARACTER_SIZE/2);
 	boss.hitboxX=Math.floor(boss.x+BOSS_SIZE/2);
 	boss.hitboxY=Math.floor(boss.y+BOSS_SIZE/2);
-
+	console.log(currentDifficulty);
 	if (hero.health>0){
 		if (87 in keysDown&& hero.y>0) { // Player holding w
 			hero.y -= hero.speed * modifier;
@@ -619,7 +616,6 @@ var update = function (modifier) {
 	}
 	else{
 		for(let i = 0; i<boss.projectiles.length; i++){
-			console.log("salut");
 			boss.projectiles[i].x+=boss.projectiles[i].variationX[boss.projectiles[i].indice]*SPEED*modifier*PROJECTILES_SPEED;
 			boss.projectiles[i].y+=boss.projectiles[i].variationY[boss.projectiles[i].indice]*SPEED*modifier*PROJECTILES_SPEED;
 			let projX = boss.projectiles[i].x+PROJECTILES_SIZE/2;
@@ -771,7 +767,7 @@ var render = function () {
 			boss.secondRandom=-1;	
 		}
 		if(boss.spell()=="food"){
-			for(let i=0;i<8;i++){
+			for(let i=0;i<2;i++){
 				boss.projectiles.push(new Projectiles(boss.x+(BOSS_SIZE/2),boss.y+(BOSS_SIZE/2),i));
 			}
 		}
