@@ -446,8 +446,10 @@ var reset = function () {
 	
 };
 
+
+
 // Update game objects
-var update = function (modifier) {
+var update = function (modifier,callback) {
 	let check = new Date();
 	
 	//set the hitbox on a center point
@@ -636,7 +638,7 @@ var update = function (modifier) {
 	if (hero.health<0){
 		hero.health=0;
 	}
-	
+	callback();
 };
 
 
@@ -812,15 +814,25 @@ var render = function () {
 	
 };
 
+
+var regen = function regenHp(){
+	if(hero.health<100){
+		hero.health+=1;
+	}
+};
+
+var checkRegen = false;
 // The main game loop
 var main = function () {
 	var now = Date.now();
 	var delta = now - then;
 
-	update(delta / 1000);
-    //console.log(delta);
-	render();
-
+	if (!checkRegen){
+		setInterval(regen,5000);
+		checkRegen = true;
+	}
+	update(delta / 1000, render);
+	
 	then = now;
 
 	if(hero.health <= 0 && heroDyingIndice>=14) {
