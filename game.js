@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //rename boss par boss et hero par character
 //mettre des positions fixes de boss et character
 //gestion de mes hp
@@ -8,6 +9,8 @@
 
 
 //gérer les hitbox des projectiles avec les centres
+=======
+>>>>>>> 40971a0b6cf62819df66f91ae4e19a2f9f385a57
 const DIFFICULTIES=[0.75,1,1.5];
 var currentDifficulty = sessionStorage.getItem("difficulty");
 if(!currentDifficulty)
@@ -35,7 +38,7 @@ document.body.appendChild(canvas);
 
 // Background image
 const bgImage = new Image();
-bgImage.src = "ressources/game/background.png";
+bgImage.src = localStorage.getItem("chosenMap");
 
 //laser boss and projectiles
 const prelaser0 = new Image();
@@ -459,8 +462,10 @@ var reset = function () {
 	
 };
 
+
+
 // Update game objects
-var update = function (modifier) {
+var update = function (modifier,callback) {
 	let check = new Date();
 	
 	//set the hitbox on a center point
@@ -649,7 +654,7 @@ var update = function (modifier) {
 	if (hero.health<0){
 		hero.health=0;
 	}
-	
+	callback();
 };
 
 
@@ -825,15 +830,25 @@ var render = function () {
 	
 };
 
+
+var regen = function regenHp(){
+	if(hero.health<100){
+		hero.health+=1;
+	}
+};
+
+var checkRegen = false;
 // The main game loop
 var main = function () {
 	var now = Date.now();
 	var delta = now - then;
 
-	update(delta / 1000);
-    //console.log(delta);
-	render();
-
+	if (!checkRegen){
+		setInterval(regen,5000);
+		checkRegen = true;
+	}
+	update(delta / 1000, render);
+	
 	then = now;
 
 	if(hero.health <= 0 && heroDyingIndice>=14) {
