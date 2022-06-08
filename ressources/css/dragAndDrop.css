@@ -1,0 +1,60 @@
+body .container mapSetting{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+
+}
+
+.drop-targets {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    margin: 20px 0;
+}
+
+.box {
+    height: 200px;
+    width: 200px;
+    border: solid 3px #ccc;
+    margin: 10px;
+
+    /* align items in the box */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+#div1, #div2 {
+    height: 200px;
+    width: 200px;
+    border: solid 3px #ccc;
+    margin: 10px;
+
+    /* align items in the box */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+#imageMap img{
+    height: 150px;
+    width: auto;
+}
+
+
+.drag-over {
+    border: dashed 3px yellow;
+}
+
+.hide {
+    display: none;
+}
