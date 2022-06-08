@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //rename boss par boss et hero par character
 //mettre des positions fixes de boss et character
 //gestion de mes hp
@@ -8,6 +9,8 @@
 
 
 //gérer les hitbox des projectiles avec les centres
+=======
+>>>>>>> 2b16481 (soundfx)
 const DIFFICULTIES=[0.75,1,1.5];
 var currentDifficulty = sessionStorage.getItem("difficulty");
 if(!currentDifficulty)
