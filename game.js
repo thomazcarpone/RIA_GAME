@@ -7,6 +7,8 @@
 //demander à l'enseignant pour la gestion des images !!!
 const DIFFICULTIES=[0.75,1,1.5];
 var currentDifficulty = sessionStorage.getItem("difficulty");
+if(!currentDifficulty)
+	currentDifficulty=0;
 var bossMultiplier=1;
 const CHARACTER_SIZE=90;
 const CANVAS_SIZE=700;
@@ -251,8 +253,9 @@ class Fireball{
 
 class Boss{
 	constructor(){
-		this.hp=BOSS_HP;
-		this.damage = BOSS_DAMAGE;
+		this.hp = BOSS_HP*DIFFICULTIES[currentDifficulty]*bossMultiplier;
+		this.damage = BOSS_DAMAGE*DIFFICULTIES[currentDifficulty]*bossMultiplier;
+		this.speed = SPEED/5*bossMultiplier; 
 		this.x = 600;
 		this.y = 600;
 		this.isCasting=false;
@@ -403,7 +406,7 @@ class Hero {
 		this.fireballs = [];
 		this.lastFireball = new Date();
 		this.attackSpeed = 0.6;
-		this.fireballDamage = 8;
+		this.fireballDamage = 12;
 		this.lastAnimation = new Date();
 		this.hitboxX=0;
 		this.hitboxY=0;
@@ -431,8 +434,8 @@ addEventListener("keyup", function (e) {
 
 // Reset the game when the player catches a boss
 var reset = function () {
-	hero.x = canvas.width / 2;
-	hero.y = canvas.height / 2;
+	hero.x = canvas.width / 2 + canvas.width/4;
+	hero.y = canvas.height / 2 + canvas.width/4;
 
 	// Throw the boss somewhere on the screen randomly
 	//boss.x = 32 + (Math.random() * (canvas.width - 64));
@@ -505,28 +508,29 @@ var update = function (modifier) {
 	//console.log(boss.isCasting);
 	if(!boss.isCasting){
 		if (hero.hitboxX>boss.hitboxX){
-			boss.x += SPEED/5*modifier;
+			boss.x += boss.speed*modifier;
 		}
 		if (hero.hitboxX<boss.hitboxX){
-			boss.x -= SPEED/5*modifier;
+			boss.x -= boss.speed*modifier;
 		}
 		if (hero.hitboxY>boss.hitboxY){
-			boss.y += SPEED/5*modifier;
+			boss.y += boss.speed*modifier;
 		}
 		if (hero.hitboxY<boss.hitboxY){
-			boss.y -= SPEED/5*modifier;
+			boss.y -= boss.speed*modifier;
 		}
 	}
 	//console.log(keysDown)
 
 	// Are they touching?
 	if (boss.hp<=0) {
+		bossMultiplier++;
 		reset();
 	}
 	if (hero.hitboxX <= (boss.hitboxX + BOSS_SIZE/4)&& hero.hitboxY <= (boss.hitboxY + BOSS_SIZE/2) &&
 		boss.hitboxX <= (hero.hitboxX + BOSS_SIZE/4)&& boss.hitboxY <= (hero.hitboxY + BOSS_SIZE/2) && 
 		hero.health>0) {
-			hero.health-=boss.damage/10;
+			hero.health-=Math.floor(boss.damage/10);
 			damageSound.play();			
 		}
 	
@@ -556,7 +560,7 @@ var update = function (modifier) {
 	if (boss.laserX>0){		
 		boss.laserX+= /*(boss.laserS ? */1/*:-1)*/*SPEED*modifier*4;
 		if (boss.laserY <= (hero.hitboxY+CHARACTER_SIZE/3) && hero.hitboxY <= (boss.laserY+CHARACTER_SIZE/3) && hero.hitboxX>boss.laserX){
-			hero.health-=boss.damage/5;
+			hero.health-=Math.floor(boss.damage/5);
 			damageSound.play();
 		}
 		if (boss.laserX>CANVAS_SIZE){
@@ -572,7 +576,7 @@ var update = function (modifier) {
 			if (boss.pins[i].x <= (hero.hitboxX+CHARACTER_SIZE/4) && hero.hitboxX <= (boss.pins[i].x+CHARACTER_SIZE/4) && hero.health>0
 				&& hero.hitboxY <= (boss.pins[i].y+CANVAS_SIZE/3) && boss.pins[i].y <= hero.hitboxY){
 					damageSound.play();
-					hero.health-=boss.damage;
+					hero.health-=Math.floor(boss.damage);
 				}
 
 		}
@@ -590,7 +594,7 @@ var update = function (modifier) {
 			if (pX <= (hero.hitboxX+CHARACTER_SIZE/4) && pY <= (hero.hitboxY+CHARACTER_SIZE/3) &&
 				hero.hitboxX <= (pX+CHARACTER_SIZE/4) && hero.hitboxY <= (pY+CHARACTER_SIZE/3)){
 					damageSound.play();
-					hero.health-=boss.damage*2;
+					hero.health-=Math.floor(boss.damage/2);
 					boss.projectiles.splice(i,1);
 				}
 		}
@@ -627,7 +631,7 @@ var update = function (modifier) {
 				&& hero.hitboxX <= (projX + CHARACTER_SIZE/4)&& hero.hitboxY <= (projY + CHARACTER_SIZE/3)
 				&& hero.health>0 && !boss.projectiles[i].hasTouched){
 					damageSound.play();
-					hero.health-=boss.damage;
+					hero.health-=Math.floor(boss.damage);
 					boss.projectiles[i].hasTouched=true;
 			}
 	
@@ -827,7 +831,7 @@ var main = function () {
 
 		ctx.fillText('Game Over !', this.canvas.width * 0.4, this.canvas.height * 0.5);
 
-		score = Math.floor( (3600000 - (Date.now() - starterTimer))/100000 * damages ) ;
+		score = Math.floor( (3600000 - (Date.now() - starterTimer))/100000 * damages *DIFFICULTIES[currentDifficulty] ) ;
 
 		const name = prompt('Your score is : ' +score +' Enter name:');
         const newScore = { score, name };
