@@ -16,3 +16,6 @@ function myRadioFunction() {
     }
     document.getElementById("difficulty").innerHTML = "Actual difficulty : " + txt;
 }
+
+
+
