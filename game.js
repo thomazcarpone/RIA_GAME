@@ -247,6 +247,9 @@ shootLImage.src = "ressources/game/shoot2.png";
 const colereShoot = new Image();
 colereShoot.src = "ressources/game/ColereShoot";
 
+function calcScore(date,totalDamage,difficulty){
+	return Math.floor( (3600000 - (Date.now() - date))/100000 * totalDamage * difficulty );
+}
 // Game objects
 
 class Fireball{
@@ -262,6 +265,9 @@ class Boss{
 		this.hp = BOSS_HP*DIFFICULTIES[currentDifficulty]*bossMultiplier;
 		this.damage = BOSS_DAMAGE*DIFFICULTIES[currentDifficulty]*bossMultiplier;
 		this.speed = SPEED/5*bossMultiplier; 
+		if(this.speed>SPEED/5*3){
+			this.speed=SPEED/5*3.5;
+		}
 		this.x = 600;
 		this.y = 600;
 		this.isCasting=false;
@@ -416,6 +422,7 @@ class Hero {
 		this.attackSpeed = 0.6;
 		this.fireballDamage = 12;
 		this.lastAnimation = new Date();
+		this.lastNoise = new Date();
 		this.hitboxX=0;
 		this.hitboxY=0;
 	}
@@ -464,7 +471,7 @@ var reset = function () {
 // Update game objects
 var update = function (modifier,callback) {
 	let check = new Date();
-	
+	console.log(boss.speed +" "+hero.speed);
 	//set the hitbox on a center point
 	//héros: largeur 1/2 et 2/3 de haut
 	//boss: largeur 1/2 et 1/1 de haut
@@ -518,16 +525,16 @@ var update = function (modifier,callback) {
 	}
 	//console.log(boss.isCasting);
 	if(!boss.isCasting){
-		if (hero.hitboxX>boss.hitboxX){
+		if (hero.hitboxX>boss.hitboxX && boss.hitboxX<CANVAS_SIZE){
 			boss.x += boss.speed*modifier;
 		}
-		if (hero.hitboxX<boss.hitboxX){
+		if (hero.hitboxX<boss.hitboxX && boss.hitboxX>0){
 			boss.x -= boss.speed*modifier;
 		}
-		if (hero.hitboxY>boss.hitboxY){
+		if (hero.hitboxY>boss.hitboxY && boss.hitboxY<CANVAS_SIZE){
 			boss.y += boss.speed*modifier;
 		}
-		if (hero.hitboxY<boss.hitboxY){
+		if (hero.hitboxY<boss.hitboxY && boss.hitboxX>0){
 			boss.y -= boss.speed*modifier;
 		}
 	}
@@ -542,7 +549,10 @@ var update = function (modifier,callback) {
 		boss.hitboxX <= (hero.hitboxX + BOSS_SIZE/4)&& boss.hitboxY <= (hero.hitboxY + BOSS_SIZE/2) && 
 		hero.health>0) {
 			hero.health-=Math.floor(boss.damage/10) + (Math.floor(boss.damage/10)==0?1:0);
-			damageSound[Math.floor(Math.random()*5)].play();			
+			if(check-hero.lastNoise>1000){
+				damageSound[Math.floor(Math.random()*5)].play();
+				hero.lastNoise=check;			
+			}
 		}
 	
 	//fireball movement
@@ -572,7 +582,10 @@ var update = function (modifier,callback) {
 		boss.laserX+= /*(boss.laserS ? */1/*:-1)*/*SPEED*modifier*4;
 		if (boss.laserY <= (hero.hitboxY+CHARACTER_SIZE/3) && hero.hitboxY <= (boss.laserY+CHARACTER_SIZE/3) && hero.hitboxX>boss.laserX){
 			hero.health-=Math.floor(boss.damage/5);
-			damageSound[Math.floor(Math.random()*5)].play();
+			if(check-hero.lastNoise>1000){
+				damageSound[Math.floor(Math.random()*5)].play();
+				hero.lastNoise=check;			
+			}
 		}
 		if (boss.laserX>CANVAS_SIZE){
 			boss.laserX=-1;
@@ -586,7 +599,10 @@ var update = function (modifier,callback) {
 			boss.pins[i].x+=SPEED*modifier*(boss.pins[i].sens?1:-1)*boss.pins[i].speed;
 			if (boss.pins[i].x <= (hero.hitboxX+CHARACTER_SIZE/4) && hero.hitboxX <= (boss.pins[i].x+CHARACTER_SIZE/4) && hero.health>0
 				&& hero.hitboxY <= (boss.pins[i].y+CANVAS_SIZE/3) && boss.pins[i].y <= hero.hitboxY){
-					damageSound[Math.floor(Math.random()*5)].play();
+					if(check-hero.lastNoise>1000){
+						damageSound[Math.floor(Math.random()*5)].play();
+						hero.lastNoise=check;			
+					}
 					hero.health-=Math.floor(boss.damage);
 				}
 
@@ -604,7 +620,10 @@ var update = function (modifier,callback) {
 
 			if (pX <= (hero.hitboxX+CHARACTER_SIZE/4) && pY <= (hero.hitboxY+CHARACTER_SIZE/3) &&
 				hero.hitboxX <= (pX+CHARACTER_SIZE/4) && hero.hitboxY <= (pY+CHARACTER_SIZE/3)){
-					damageSound[Math.floor(Math.random()*5)].play();
+					if(check-hero.lastNoise>1000){
+						damageSound[Math.floor(Math.random()*5)].play();
+						hero.lastNoise=check;			
+					}
 					hero.health-=Math.floor(boss.damage);
 					boss.projectiles.splice(i,1);
 				}
@@ -641,7 +660,10 @@ var update = function (modifier,callback) {
 			if (projX <= (hero.hitboxX + CHARACTER_SIZE/4)&& projY <= (hero.hitboxY + CHARACTER_SIZE/3)
 				&& hero.hitboxX <= (projX + CHARACTER_SIZE/4)&& hero.hitboxY <= (projY + CHARACTER_SIZE/3)
 				&& hero.health>0 && !boss.projectiles[i].hasTouched){
-					damageSound[Math.floor(Math.random()*5)].play();
+					if(check-hero.lastNoise>1000){
+						damageSound[Math.floor(Math.random()*5)].play();
+						hero.lastNoise=check;			
+					}
 					hero.health-=Math.floor(boss.damage);
 					boss.projectiles[i].hasTouched=true;
 			}
@@ -852,7 +874,7 @@ var main = function () {
 
 		ctx.fillText('Game Over !', this.canvas.width * 0.4, this.canvas.height * 0.5);
 
-		score = Math.floor( (3600000 - (Date.now() - starterTimer))/100000 * damages *DIFFICULTIES[currentDifficulty] ) ;
+		score = calcScore(starterTimer,damages,DIFFICULTIES[currentDifficulty]);
 
 		//recuperate json data
 		// const highScoreString = localStorage.getItem(HIGH_SCORES);
