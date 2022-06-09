@@ -619,8 +619,8 @@ var update = function (modifier,callback) {
 				
 			}
 
-			if (pX <= (hero.hitboxX+CHARACTER_SIZE/4) && pY <= (hero.hitboxY+CHARACTER_SIZE/3) &&
-				hero.hitboxX <= (pX+CHARACTER_SIZE/4) && hero.hitboxY <= (pY+CHARACTER_SIZE/3)){
+			if (pX <= (hero.hitboxX+CHARACTER_SIZE/2) && pY <= (hero.hitboxY+CHARACTER_SIZE/3*2) &&
+				hero.hitboxX <= (pX+CHARACTER_SIZE/2) && hero.hitboxY <= (pY+CHARACTER_SIZE/3*2)){
 					if(check-hero.lastNoise>1000){
 						damageSound[Math.floor(Math.random()*5)].play();
 						hero.lastNoise=check;			
