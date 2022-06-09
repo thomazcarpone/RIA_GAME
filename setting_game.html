@@ -91,7 +91,7 @@
 				</jeu>			
 			</section>
 		</main>
-		<radioB>
+		<div class="row">
 			<script src="setting_game.js"></script>
 			<script type="text/javascript">
 				function iniRadio() {
@@ -113,86 +113,96 @@
 				}
 				window.onload = iniRadio;
 			</script>
-			<h3>Please choose a difficulty :</h3>
-			<h3 id="difficulty">Actual difficulty : Easy</h3>
-			<label class="container">Easy Peasy
-				<input type="radio" checked="checked" name="radio" id="easyRadio">
-				<span class="checkmark"></span>
-			  </label>
-			  <label class="container">Medium-rare
-				<input type="radio" name="radio" id="mediumRadio">
-				<span class="checkmark"></span>
-			  </label>
-			  <label class="container">H*A*R"D"C*O"R"E
-				<input type="radio" name="radio" id="hardcoreRadio">
-				<span class="checkmark"></span>
-			  </label>
-			  <button onclick="myRadioFunction()">Apply</button>
-		</radioB>
+			<div class="column">
+				<h3>Please choose a difficulty :</h3>
+				<h3 id="difficulty">Actual difficulty : Easy</h3>
+				<label class="container">Easy Peasy
+					<input type="radio" checked="checked" name="radio" id="easyRadio">
+					<span class="checkmark"></span>
+				  </label>
+				  <label class="container">Medium-rare
+					<input type="radio" name="radio" id="mediumRadio">
+					<span class="checkmark"></span>
+				  </label>
+				  <label class="container">H*A*R"D"C*O"R"E
+					<input type="radio" name="radio" id="hardcoreRadio">
+					<span class="checkmark"></span>
+				  </label>
+				  <button onclick="myRadioFunction()">Apply</button>
+			</div>
+			<div class="column">
+				<h3>Commands:</h3>
+				<text>W, A, S and D to move the character</text>
+				<br>
+				<text>Enter to shoot</text>
+				<br>
+			</div>
+		</div>
 		<br>
 		<br>
 		<br>
-		
 		<mapSetting>
-			<script src="setting_game.js"></script>
-			<script>
-				function allowDrop(ev) {
-					ev.preventDefault();
-				}
-
-				function drag(ev) {
-					ev.dataTransfer.setData("text", ev.target.id);
-				}
-
-				function drop(ev) {
-					ev.preventDefault();
-					var data = ev.dataTransfer.getData("text");
-					ev.target.appendChild(document.getElementById(data));
-					console.log(ev.dataTransfer.getData("text")); // sort l'id de l'image
-
-					// drop on the local storage
-					let chosenMap = document.getElementById(ev.dataTransfer.getData("text"));
-					let chosenMapPath = chosenMap.getAttribute("src");
-					localStorage.setItem("chosenMap", chosenMapPath);
-					// refresh page
-					location.replace("setting_game.html");
-				}
-			</script>
-			<script>
-				function iniMap() {
-					// change title
-					console.log(localStorage.getItem("chosenMap"));
-					if(!localStorage.getItem("chosenMap") || localStorage.getItem("chosenMap") == "ressources/game/background.png"){
-						document.getElementById("actualMap").innerHTML = "Actual map : Terre d'argile"
+			<div style="clear: both;">
+				<script src="setting_game.js"></script>
+				<script>
+					function allowDrop(ev) {
+						ev.preventDefault();
 					}
-					else{
-						if(localStorage.getItem("chosenMap") == "ressources/game/background1.png"){
-							document.getElementById("actualMap").innerHTML = "Actual map : Terre d'argile fumée à la cendre d'épice sombre de la mort"
+	
+					function drag(ev) {
+						ev.dataTransfer.setData("text", ev.target.id);
+					}
+	
+					function drop(ev) {
+						ev.preventDefault();
+						var data = ev.dataTransfer.getData("text");
+						ev.target.appendChild(document.getElementById(data));
+						console.log(ev.dataTransfer.getData("text")); // sort l'id de l'image
+	
+						// drop on the local storage
+						let chosenMap = document.getElementById(ev.dataTransfer.getData("text"));
+						let chosenMapPath = chosenMap.getAttribute("src");
+						localStorage.setItem("chosenMap", chosenMapPath);
+						// refresh page
+						location.replace("setting_game.html");
+					}
+				</script>
+				<script>
+					function iniMap() {
+						// change title
+						console.log(localStorage.getItem("chosenMap"));
+						if(!localStorage.getItem("chosenMap") || localStorage.getItem("chosenMap") == "ressources/game/background.png"){
+							document.getElementById("actualMap").innerHTML = "Actual map : Terre d'argile"
 						}
 						else{
-							document.getElementById("actualMap").innerHTML = "Actual map : Terre d'argile claire comme l'eau assoiffée par la mer des anges"
+							if(localStorage.getItem("chosenMap") == "ressources/game/background1.png"){
+								document.getElementById("actualMap").innerHTML = "Actual map : Terre d'argile fumée à la cendre d'épice sombre de la mort"
+							}
+							else{
+								document.getElementById("actualMap").innerHTML = "Actual map : Terre d'argile claire comme l'eau assoiffée par la mer des anges"
+							}
 						}
+						
 					}
-					
-				}
-				window.onload = iniMap;
-			</script>
-			<h3>Please choose a map :</h3>
-			<h3 id="actualMap">Actual map : Terre d'argile</h3>
-			<div class="container">
-				<div class="drop-targets">
-					<div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)"> Drop Here</div>
-					<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
-						<img src="ressources/game/background.png" draggable="true" ondragstart="drag(event)" id="background" width="150" height="150">
-					</div>
-					<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
-						<img src="ressources/game/background1.png" draggable="true" ondragstart="drag(event)" id="background1" width="150" height="150">
-					</div>
-					<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
-						<img src="ressources/game/background2.png" draggable="true" ondragstart="drag(event)" id="background2" width="150" height="150">
+					window.onload = iniMap;
+				</script>
+				<h3>Please choose a map :</h3>
+				<h3 id="actualMap">Actual map : Terre d'argile</h3>
+				<div class="container">
+					<div class="drop-targets">
+						<div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)"> Drop Here</div>
+						<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<img src="ressources/game/background.png" draggable="true" ondragstart="drag(event)" id="background" width="150" height="150">
+						</div>
+						<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<img src="ressources/game/background1.png" draggable="true" ondragstart="drag(event)" id="background1" width="150" height="150">
+						</div>
+						<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<img src="ressources/game/background2.png" draggable="true" ondragstart="drag(event)" id="background2" width="150" height="150">
+						</div>
 					</div>
 				</div>
-			</div>
+			</div>	
 		</mapSetting>
 
 		<footer>

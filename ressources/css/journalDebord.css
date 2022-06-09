@@ -7,6 +7,10 @@ main section table{
     font-weight: 700;
 }
 
+body game {
+    text-align: center;
+}
+
 @media screen and (max-width: 780px) {
     main section table{
         padding-left: 40px;
