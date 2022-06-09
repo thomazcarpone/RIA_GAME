@@ -5,6 +5,12 @@ body h3 {
     color: white;
 }
 
+body text {
+    margin-left: 34px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: white;
+}
+
 /* The container */
 .container {
   display: block;
@@ -38,6 +44,7 @@ button {
     margin-top: 15px;
     margin-left: 33px;
 }
+
 
 /* Create a custom radio button */
 .checkmark {
