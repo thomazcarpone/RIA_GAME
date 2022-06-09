@@ -248,10 +248,11 @@ const colereShoot = new Image();
 colereShoot.src = "ressources/game/ColereShoot";
 
 function calcScore(date,totalDamage,difficulty){
-	return Math.floor( (3600000 - (Date.now() - date))/100000 * totalDamage * difficulty );
+	let time = (3600000 - (Date.now() - date))/100000;
+	return Math.floor(time * totalDamage * difficulty);
 }
-// Game objects
 
+// Game objects
 class Fireball{
     constructor(x,y,m){
         this.x = x;
